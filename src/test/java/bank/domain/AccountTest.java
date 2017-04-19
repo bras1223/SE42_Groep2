@@ -113,12 +113,10 @@ public class AccountTest {
         account.setId(expected);
 
         em.getTransaction().begin();
-
         em.persist(account);
+
         assertEquals(expected, account.getId());
         em.flush();
-
-        assertEquals(expected, account.getId());
 
         em.getTransaction().commit();
         em.close();
