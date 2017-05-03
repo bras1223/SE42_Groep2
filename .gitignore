@@ -15,3 +15,4 @@ build/
 *.zip
 *.tar.gz
 *.rar
+/auction-assignment/target/
