@@ -17,11 +17,12 @@ public class JPARegistrationMgrTest {
 
     private RegistrationMgr registrationMgr;
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
+    private  DatabaseCleaner databaseCleaner;
     
     @Before
     public void setUp() throws Exception {
         
-        DatabaseCleaner databaseCleaner = new DatabaseCleaner(em);
+        databaseCleaner = new DatabaseCleaner(emf.createEntityManager());
          try {
             databaseCleaner.clean();
         } catch (SQLException e) {
