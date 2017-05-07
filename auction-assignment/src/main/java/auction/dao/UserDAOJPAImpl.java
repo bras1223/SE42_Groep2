@@ -1,8 +1,6 @@
 package auction.dao;
 
 import auction.domain.User;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -15,12 +13,16 @@ public class UserDAOJPAImpl implements UserDAO {
 
     public UserDAOJPAImpl(EntityManager em) {
         this.em = em;
+        em.getTransaction().begin();
     }
 
     @Override
     public int count() {
-    try {
-            em.getTransaction().begin();
+        try {
+            if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
+
             Query q = em.createNamedQuery("User.count", User.class);
             em.getTransaction().commit();
             return ((Long) q.getSingleResult()).intValue();
@@ -29,32 +31,42 @@ public class UserDAOJPAImpl implements UserDAO {
             em.getTransaction().rollback();
             return -1;
         }
-        
+
     }
 
     @Override
     public void create(User user) {
-         if (findByEmail(user.getEmail()) != null) {
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
+
+        if (findByEmail(user.getEmail()) != null) {
             throw new EntityExistsException();
         }
-         
+
         try {
             em.persist(user);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
-        }   
+        }
     }
 
     @Override
     public void edit(User user) {
+        if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
         if (findByEmail(user.getEmail()) == null) {
             throw new IllegalArgumentException();
         }
-       
+
+        if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
         try {
-            em.getTransaction().begin();
+            
             em.persist(user);
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -63,11 +75,12 @@ public class UserDAOJPAImpl implements UserDAO {
         }
     }
 
-
     @Override
-    public List<User> findAll() {    
+    public List<User> findAll() {
+        if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
         try {
-            em.getTransaction().begin();
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(User.class));
             return em.createQuery(cq).getResultList();
@@ -85,24 +98,25 @@ public class UserDAOJPAImpl implements UserDAO {
         }
         try {
             Query q = em.createNamedQuery("User.findByEmail", User.class);
-            q.setParameter("email", email);   
+            q.setParameter("email", email);
             return ((User) q.getSingleResult());
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
             return null;
         }
     }
 
     @Override
     public void remove(User user) {
+        if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
         try {
-            em.getTransaction().begin();
             em.remove(em.merge(user));
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
-        }      
+        }
     }
 }
