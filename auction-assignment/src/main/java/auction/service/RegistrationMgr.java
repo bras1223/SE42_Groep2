@@ -2,7 +2,6 @@ package auction.service;
 
 import java.util.*;
 import auction.domain.User;
-import auction.dao.UserDAOCollectionImpl;
 import auction.dao.UserDAO;
 import auction.dao.UserDAOJPAImpl;
 import javax.persistence.EntityManagerFactory;
