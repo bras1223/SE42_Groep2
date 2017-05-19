@@ -15,7 +15,7 @@ import nl.fontys.util.Money;
 public class Bid implements Serializable{
 
     @Id @GeneratedValue
-    private Long id;
+    private Long bidID;
     
     @Embedded
     private FontysTime time;

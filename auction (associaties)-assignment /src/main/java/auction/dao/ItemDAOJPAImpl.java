@@ -89,10 +89,9 @@ public class ItemDAOJPAImpl implements ItemDAO {
         if (!em.getTransaction().isActive()) {
             em.getTransaction().begin();
         }
+        
         try {
-            Query q = em.createNamedQuery("Item.findByID", Item.class);
-            q.setParameter("id", id);
-            return ((Item) q.getSingleResult());
+            return em.find(Item.class, id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
