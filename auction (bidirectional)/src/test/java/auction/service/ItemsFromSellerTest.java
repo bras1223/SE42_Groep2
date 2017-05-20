@@ -6,6 +6,7 @@ import util.DatabaseCleaner;
 import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
+import java.sql.SQLException;
 import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +14,8 @@ import static org.junit.Assert.*;
 
 public class ItemsFromSellerTest {
 
-    final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
-    final EntityManager em = emf.createEntityManager();
+    private EntityManagerFactory emf;
+    private EntityManager em;
     private AuctionMgr auctionMgr;
     private RegistrationMgr registrationMgr;
     private SellerMgr sellerMgr;
@@ -27,6 +28,10 @@ public class ItemsFromSellerTest {
         registrationMgr = new RegistrationMgr();
         auctionMgr = new AuctionMgr();
         sellerMgr = new SellerMgr();
+        
+        emf = Persistence.createEntityManagerFactory("auctionPU");
+        em = emf.createEntityManager();
+        
         new DatabaseCleaner(em).clean();
     }
 
@@ -70,7 +75,7 @@ public class ItemsFromSellerTest {
 
         User userWithItem = item2.getSeller();
         assertEquals(2, userWithItem.numberOfOfferdItems());
-        assertEquals(3, userWithItem.numberOfOfferdItems());
+        //assertEquals(3, userWithItem.numberOfOfferdItems()); De user heeft maar 2 items
         /*
          *  expected: which one of te above two assertions do you expect to be true?
          *  QUESTION:
@@ -78,7 +83,7 @@ public class ItemsFromSellerTest {
          */
         
         
-        assertNotSame(user3, userWithItem);
+//        assertNotSame(user3, userWithItem); / ze zijn niet hetzelfde object maar wel equals
         assertEquals(user3, userWithItem);
 
     }
