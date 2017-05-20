@@ -1,6 +1,7 @@
 package auction.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -29,9 +30,9 @@ public class User implements Serializable{
     private String email;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.PERSIST)
-    private Set<Item> offeredItems;
+    private Set<Item> offeredItems = new HashSet<>();
 
-    public User() {
+    public User() { 
         
     }
 
