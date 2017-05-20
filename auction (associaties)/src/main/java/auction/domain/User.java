@@ -1,6 +1,10 @@
 package auction.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
@@ -24,8 +29,10 @@ public class User implements Serializable{
     @Column(unique = true)
     private String email;
 
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.PERSIST)
+    private Set<Item> offeredItems = new HashSet<>();
 
-    public User() {
+    public User() { 
         
     }
 
@@ -48,5 +55,17 @@ public class User implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public void addItem(Item item) {
+        offeredItems.add(item);
+    }
+    
+    public int numberOfOfferdItems() {
+        return offeredItems.size();
+    }
+    
+    public Iterator<Item> getOfferedItems() {
+        return offeredItems.iterator();
     }
 }

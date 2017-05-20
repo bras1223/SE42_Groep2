@@ -3,7 +3,9 @@ package auction.service;
 import auction.dao.ItemDAO;
 import auction.dao.ItemDAOJPAImpl;
 import auction.domain.Category;
+import auction.domain.Furniture;
 import auction.domain.Item;
+import auction.domain.Painting;
 import auction.domain.User;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -42,5 +44,18 @@ public class SellerMgr {
             return true;
         } 
         return false;
+    }
+    
+    public Furniture offerFurniture(User seller, Category category, String description, String material) {
+        Furniture furniture = new Furniture(material, seller, category, description);
+        itemDAO.create(furniture);
+        return furniture;
+    }
+    
+    public Painting offerPainting(User seller, Category category, String description, String title, String painter) {
+        Painting painting = new Painting(title, painter, seller, category, description);
+        itemDAO.create(painting);
+        
+        return painting;
     }
 }

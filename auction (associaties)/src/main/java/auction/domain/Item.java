@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,6 +25,7 @@ import nl.fontys.util.Money;
     @NamedQuery(name = "Item.findByID", query = "select i from Item as i where i.id = :id"),
     @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description")
 })
+@Inheritance (strategy = InheritanceType.JOINED)
 public class Item implements Comparable, Serializable {
 
     @Id
