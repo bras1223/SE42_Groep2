@@ -38,7 +38,6 @@ public class ItemDAOJPAImpl implements ItemDAO {
             return ((Long) q.getSingleResult()).intValue();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
             return -1;
         }
     }
@@ -52,13 +51,16 @@ public class ItemDAOJPAImpl implements ItemDAO {
         if (find(item.getId()) != null) {
             throw new EntityExistsException();
         }
+        
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
 
         try {
             em.persist(item);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
     }
 
@@ -86,7 +88,10 @@ public class ItemDAOJPAImpl implements ItemDAO {
             em.getTransaction().begin();
         }
         try {
-            return em.find(Item.class, id);
+            
+            Query q = em.createNamedQuery("Item.findByID", Item.class);
+            em.getTransaction().commit();
+            return (Item) q.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -104,7 +109,6 @@ public class ItemDAOJPAImpl implements ItemDAO {
             return em.createQuery(cq).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
             return null;
         }
     }
