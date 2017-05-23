@@ -6,7 +6,7 @@ import java.util.TimeZone;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class FontysTime implements Serializable{
+public class FontysTime{
 	private long seconds;
 
 	public FontysTime() {

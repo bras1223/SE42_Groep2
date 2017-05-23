@@ -1,13 +1,11 @@
 -------------------------------------------------------------------------------
-Test set: auction.service.ItemsFromSellerTest
+Test set: auction.service.JPASellerMgrTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.203 sec <<< FAILURE!
-getItemsFromSeller(auction.service.ItemsFromSellerTest)  Time elapsed: 0.13 sec  <<< FAILURE!
-java.lang.AssertionError
-	at org.junit.Assert.fail(Assert.java:86)
-	at org.junit.Assert.assertTrue(Assert.java:41)
-	at org.junit.Assert.assertTrue(Assert.java:52)
-	at auction.service.ItemsFromSellerTest.getItemsFromSeller(ItemsFromSellerTest.java:122)
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.08 sec <<< FAILURE!
+testRevokeItem(auction.service.JPASellerMgrTest)  Time elapsed: 0.684 sec  <<< ERROR!
+java.lang.NullPointerException
+	at auction.service.SellerMgr.revokeItem(SellerMgr.java:41)
+	at auction.service.JPASellerMgrTest.testRevokeItem(JPASellerMgrTest.java:72)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

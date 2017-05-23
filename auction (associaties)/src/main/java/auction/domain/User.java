@@ -33,7 +33,7 @@ public class User implements Serializable{
     private Set<Item> offeredItems = new HashSet<>();
 
     public User() { 
-        
+        offeredItems = new HashSet<>();
     }
 
     public void setEmail(String email) {

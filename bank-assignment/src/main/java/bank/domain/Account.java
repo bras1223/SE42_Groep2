@@ -20,7 +20,6 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @Column(unique = true)
     private Long accountNr;
     private Long balance;
     private Long threshold;
@@ -32,6 +31,17 @@ public class Account implements Serializable {
         balance = 0L;
         threshold = 0L;
         this.accountNr = accountNr;
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="getters and setters ....">
+     
+    public Boolean add(Long amount) {
+        if (balance + amount >= threshold) {
+            balance += amount;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Long getId() {
@@ -66,12 +76,26 @@ public class Account implements Serializable {
         this.threshold = threshold;
     }
 
-    public Boolean add(Long amount) {
-        if (balance + amount >= threshold) {
-            balance += amount;
-            return true;
-        } else {
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Account other = (Account) obj;
+        if (this.accountNr != other.accountNr && (this.accountNr == null || !this.accountNr.equals(other.accountNr))) {
+            return false;
+        }
+        if (this.balance != other.balance && (this.balance == null || !this.balance.equals(other.balance))) {
+            return false;
+        }
+        if (this.threshold != other.threshold && (this.threshold == null || !this.threshold.equals(other.threshold))) {
+            return false;
+        }
+        return true;
     }
-}
+} 

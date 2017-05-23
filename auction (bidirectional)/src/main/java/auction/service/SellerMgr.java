@@ -2,6 +2,8 @@ package auction.service;
 
 import auction.dao.ItemDAO;
 import auction.dao.ItemDAOJPAImpl;
+import auction.dao.UserDAO;
+import auction.dao.UserDAOJPAImpl;
 import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
@@ -12,9 +14,11 @@ public class SellerMgr {
 
    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
    private ItemDAO itemDAO;
+   private UserDAO userDAO;
    
    public SellerMgr() {
        itemDAO = new ItemDAOJPAImpl(emf.createEntityManager());
+       userDAO = new UserDAOJPAImpl(emf.createEntityManager());
    }
     /**
      * @param seller
@@ -25,7 +29,10 @@ public class SellerMgr {
      */
     public Item offerItem(User seller, Category cat, String description) {
         Item item = new Item(seller, cat, description);
+        seller.addItem(item);
+       
         itemDAO.create(item);
+        userDAO.edit(seller);
         return item;
     }
     
@@ -38,7 +45,6 @@ public class SellerMgr {
         Item foundItem = itemDAO.find(item.getId());
         if(item.getHighestBid() == null) {
             itemDAO.remove(foundItem);
-            System.out.println("true");
             return true;
         } 
         return false;

@@ -23,16 +23,11 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     public ItemDAOJPAImpl(EntityManager em) {
         this.em = em;
-        em.getTransaction().begin();
     }
     
     @Override
     public int count() {
         try {
-            if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
-
             Query q = em.createNamedQuery("Item.count", Item.class);
             em.getTransaction().commit();
             return ((Long) q.getSingleResult()).intValue();
@@ -44,16 +39,10 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public void create(Item item) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
+        em.getTransaction().begin();
 
         if (find(item.getId()) != null) {
             throw new EntityExistsException();
-        }
-        
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
         }
 
         try {
@@ -66,9 +55,8 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public void edit(Item item) {
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
+        em.getTransaction().begin();
+        
         if (find(item.getId()) == null) {
             throw new IllegalArgumentException();
         }
@@ -84,14 +72,8 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public Item find(Long id) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
         try {
-            
-            Query q = em.createNamedQuery("Item.findByID", Item.class);
-            em.getTransaction().commit();
-            return (Item) q.getSingleResult();
+            return em.find(Item.class, id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -100,9 +82,6 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public List<Item> findAll() {
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Item.class));
@@ -115,9 +94,6 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public List<Item> findByDescription(String description) {
-         if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
         try {
             Query q = em.createNamedQuery("Item.findByDescription", Item.class);
             q.setParameter("description", description);
@@ -130,9 +106,7 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public void remove(Item item) {
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
+        em.getTransaction().begin();
         try {
             em.remove(em.merge(item));
             em.getTransaction().commit();

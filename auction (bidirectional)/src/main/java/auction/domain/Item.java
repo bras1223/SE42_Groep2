@@ -33,14 +33,12 @@ public class Item implements Comparable, Serializable {
     private User seller;
     
     @Embedded
-    @AttributeOverrides({
-    @AttributeOverride(name = "description", column = @Column(name = "cat_description"))
-    })
+    @AttributeOverride(name = "description", column = @Column(name = "CAT_DESCRIPTION"))
     private Category category;
     
     private String description;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Bid highest;
 
     public Item() {
@@ -80,13 +78,19 @@ public class Item implements Comparable, Serializable {
             return null;
         }
        
-        highest = new Bid(buyer, amount);
+        highest = new Bid(this, buyer, amount);
         return highest;
     }
 
     public int compareTo(Object arg0) {
-        //TODO
-        return -1;
+        Item item = (Item) arg0;
+        if (this.id > item.id) {
+            return 1;
+        } else if (this.id < item.id) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     public boolean equals(Object o) {

@@ -13,18 +13,12 @@ public class UserDAOJPAImpl implements UserDAO {
 
     public UserDAOJPAImpl(EntityManager em) {
         this.em = em;
-        em.getTransaction().begin();
     }
 
     @Override
     public int count() {
         try {
-            if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
-
             Query q = em.createNamedQuery("User.count", User.class);
-            em.getTransaction().commit();
             return ((Long) q.getSingleResult()).intValue();
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,9 +30,7 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public void create(User user) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
+        em.getTransaction().begin();
 
         if (findByEmail(user.getEmail()) != null) {
             throw new EntityExistsException();
@@ -55,19 +47,13 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public void edit(User user) {
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
+        em.getTransaction().begin();
         if (findByEmail(user.getEmail()) == null) {
             throw new IllegalArgumentException();
         }
 
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
-        try {
-            
-            em.persist(user);
+        try {     
+            em.merge(user);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,9 +63,6 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public List<User> findAll() {
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(User.class));
@@ -93,9 +76,6 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public User findByEmail(String email) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
         try {
             Query q = em.createNamedQuery("User.findByEmail", User.class);
             q.setParameter("email", email);
@@ -108,9 +88,7 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public void remove(User user) {
-        if (!em.getTransaction().isActive()) {
-                em.getTransaction().begin();
-            }
+        em.getTransaction().begin();
         try {
             em.remove(em.merge(user));
             em.getTransaction().commit();

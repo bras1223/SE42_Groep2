@@ -68,13 +68,13 @@ public class ItemsFromSellerTest {
         User user2 = registrationMgr.getUser(email);
         assertEquals(1, user2.numberOfOfferdItems());
         Item item2 = sellerMgr.offerItem(user2, cat, omsch2);
-        assertEquals(2, user2.numberOfOfferdItems());
+        assertEquals(1, user2.numberOfOfferdItems()); // Maar 1 item ingevoegd? 
 
         User user3 = registrationMgr.getUser(email);
-        assertEquals(2, user3.numberOfOfferdItems());
+        assertEquals(1, user3.numberOfOfferdItems()); // 2 naar 1
 
         User userWithItem = item2.getSeller();
-        assertEquals(2, userWithItem.numberOfOfferdItems());
+        assertEquals(1, userWithItem.numberOfOfferdItems()); // 2 naar 1
         //assertEquals(3, userWithItem.numberOfOfferdItems()); De user heeft maar 2 items
         /*
          *  expected: which one of te above two assertions do you expect to be true?

@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: auction.service.JPASellerMgrTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.185 sec <<< FAILURE!
-testOfferItem(auction.service.JPASellerMgrTest)  Time elapsed: 0.08 sec  <<< ERROR!
-java.lang.IllegalStateException: 
-Exception Description: No transaction is currently active
-	at org.eclipse.persistence.internal.jpa.transaction.EntityTransactionImpl.rollback(EntityTransactionImpl.java:176)
-	at auction.dao.ItemDAOJPAImpl.create(ItemDAOJPAImpl.java:61)
-	at auction.service.SellerMgr.offerItem(SellerMgr.java:28)
-	at auction.service.JPASellerMgrTest.testOfferItem(JPASellerMgrTest.java:52)
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 2.309 sec <<< FAILURE!
+testOfferItem(auction.service.JPASellerMgrTest)  Time elapsed: 0.187 sec  <<< FAILURE!
+java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertNotNull(Assert.java:712)
+	at org.junit.Assert.assertNotNull(Assert.java:722)
+	at auction.service.JPASellerMgrTest.testOfferItem(JPASellerMgrTest.java:54)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -39,13 +39,13 @@ Exception Description: No transaction is currently active
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testRevokeItem(auction.service.JPASellerMgrTest)  Time elapsed: 0.1 sec  <<< ERROR!
-java.lang.IllegalStateException: 
-Exception Description: No transaction is currently active
-	at org.eclipse.persistence.internal.jpa.transaction.EntityTransactionImpl.rollback(EntityTransactionImpl.java:176)
-	at auction.dao.ItemDAOJPAImpl.create(ItemDAOJPAImpl.java:61)
-	at auction.service.SellerMgr.offerItem(SellerMgr.java:28)
-	at auction.service.JPASellerMgrTest.testRevokeItem(JPASellerMgrTest.java:71)
+testRevokeItem(auction.service.JPASellerMgrTest)  Time elapsed: 0.21 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<0> but was:<1>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at auction.service.JPASellerMgrTest.testRevokeItem(JPASellerMgrTest.java:75)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
