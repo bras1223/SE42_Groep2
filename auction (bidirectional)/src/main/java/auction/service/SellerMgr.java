@@ -13,9 +13,11 @@ import javax.persistence.Persistence;
 
 public class SellerMgr {
    private ItemDAO itemDAO;
+   private EntityManager em;
    
    public SellerMgr(EntityManager em) {
        itemDAO = new ItemDAOJPAImpl(em);
+       this.em = em;
    }
     /**
      * @param seller
@@ -26,7 +28,9 @@ public class SellerMgr {
      */
     public Item offerItem(User seller, Category cat, String description) {
         Item item = new Item(seller, cat, description);  
+        em.getTransaction().begin();
         itemDAO.create(item);
+        em.getTransaction().commit();
         return item;
     }
     

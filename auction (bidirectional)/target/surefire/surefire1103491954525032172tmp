@@ -1,0 +1,11 @@
+#surefire
+#Wed May 24 11:24:57 CEST 2017
+jpda.address=50818
+maven.ext.class.path=/Applications/NetBeans/NetBeans 8.2.app/Contents/Resources/NetBeans/java/maven-nblib/netbeans-eventspy.jar
+jpda.listen=true
+forkMode=once
+user.dir=/Users/Luuk/IdeaProjects/SE42_Groep2/auction (bidirectional)
+localRepository=/Users/Luuk/.m2/repository
+test=auction.service.ItemsFromSellerTest
+basedir=/Users/Luuk/IdeaProjects/SE42_Groep2/auction (bidirectional)
+maven.surefire.debug=-Xdebug -Xrunjdwp\:transport\=dt_socket,server\=n,address\=50818

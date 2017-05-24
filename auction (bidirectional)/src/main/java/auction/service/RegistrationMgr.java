@@ -11,9 +11,11 @@ import javax.persistence.Persistence;
 public class RegistrationMgr {
     
     private UserDAO userDAO;
+    private EntityManager em;
 
     public RegistrationMgr(EntityManager em) {
         userDAO = new UserDAOJPAImpl(em);
+        this.em = em;
     }
 
     /**
@@ -28,8 +30,11 @@ public class RegistrationMgr {
         if (!email.contains("@")) {
             return null;
         }
+        
+        em.getTransaction().begin();
         User user = new User(email);
         userDAO.create(user);
+        em.getTransaction().commit();
         return user;
     }
 

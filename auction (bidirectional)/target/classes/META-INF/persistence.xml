@@ -7,8 +7,8 @@
     <class>auction.domain.Item</class>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://studmysql01.fhict.local:3306/dbi337071?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="dbi337071"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://studmysql01.fhict.local:3306/dbi340347"/>
+      <property name="javax.persistence.jdbc.user" value="dbi340347"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="hackers"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

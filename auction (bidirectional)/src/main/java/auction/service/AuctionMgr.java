@@ -16,9 +16,11 @@ import javax.persistence.Persistence;
 public class AuctionMgr  {
 
    private ItemDAO itemDAO;
-
+   private EntityManager em;
+   
    public AuctionMgr(EntityManager em) {
        itemDAO = new ItemDAOJPAImpl(em);
+       this.em = this.em;
    }
    /**
      * @param id
@@ -47,7 +49,9 @@ public class AuctionMgr  {
      */
     public Bid newBid(Item item, User buyer, Money amount) {  
         Bid bid = item.newBid(buyer, amount);
+        em.getTransaction().begin();
         itemDAO.edit(item);
+        em.getTransaction().commit();
         return bid;
     }
 }

@@ -1,6 +1,0 @@
-#surefire
-#Wed May 24 10:44:12 CEST 2017
-maven.ext.class.path=/Applications/NetBeans/NetBeans 8.2.app/Contents/Resources/NetBeans/java/maven-nblib/netbeans-eventspy.jar
-user.dir=/Users/Luuk/IdeaProjects/SE42_Groep2/auction (bidirectional)
-localRepository=/Users/Luuk/.m2/repository
-basedir=/Users/Luuk/IdeaProjects/SE42_Groep2/auction (bidirectional)
