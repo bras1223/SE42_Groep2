@@ -12,18 +12,29 @@ import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import util.DatabaseCleaner;
 
 public class AuctionMgrTest {
 
     private AuctionMgr auctionMgr;
     private RegistrationMgr registrationMgr;
     private SellerMgr sellerMgr;
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
     @Before
     public void setUp() throws Exception {
-        registrationMgr = new RegistrationMgr();
-        auctionMgr = new AuctionMgr();
-        sellerMgr = new SellerMgr();
+        emf = Persistence.createEntityManagerFactory("auctionPU");
+        em = emf.createEntityManager();
+        
+        registrationMgr = new RegistrationMgr(em);
+        auctionMgr = new AuctionMgr(em);
+        sellerMgr = new SellerMgr(em);
+        
+        new DatabaseCleaner(em).clean();
     }
 
     @Test

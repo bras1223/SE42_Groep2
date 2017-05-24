@@ -7,16 +7,15 @@ import auction.dao.UserDAOJPAImpl;
 import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class SellerMgr {
-
-   private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
    private ItemDAO itemDAO;
    
-   public SellerMgr() {
-       itemDAO = new ItemDAOJPAImpl(emf.createEntityManager());
+   public SellerMgr(EntityManager em) {
+       itemDAO = new ItemDAOJPAImpl(em);
    }
     /**
      * @param seller

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import auction.domain.User;
 import java.sql.SQLException;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import util.DatabaseCleaner;
@@ -16,19 +17,20 @@ import util.DatabaseCleaner;
 public class JPARegistrationMgrTest {
 
     private RegistrationMgr registrationMgr;
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    
     private  DatabaseCleaner databaseCleaner;
     
     @Before
     public void setUp() throws Exception {
+        emf = Persistence.createEntityManagerFactory("auctionPU");
+        em = emf.createEntityManager();
         
-        databaseCleaner = new DatabaseCleaner(emf.createEntityManager());
-         try {
-            databaseCleaner.clean();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        registrationMgr = new RegistrationMgr();
+        registrationMgr = new RegistrationMgr(em);
+       
+        
+        new DatabaseCleaner(em).clean();
     }
 
     @Test

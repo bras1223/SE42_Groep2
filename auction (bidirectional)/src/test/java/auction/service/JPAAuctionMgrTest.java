@@ -14,6 +14,7 @@ import auction.domain.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import util.DatabaseCleaner;
@@ -24,21 +25,24 @@ public class JPAAuctionMgrTest {
     private RegistrationMgr registrationMgr;
     private SellerMgr sellerMgr;
 
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
     private  DatabaseCleaner databaseCleaner;
+    private EntityManager em;
     
     @Before
     public void setUp() throws Exception {
-        databaseCleaner = new DatabaseCleaner(emf.createEntityManager());
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("auctionPU");
+        em = entityManagerFactory.createEntityManager();
+        
+        databaseCleaner = new DatabaseCleaner(em);
          try {
             databaseCleaner.clean();
         } catch (SQLException e) {
             e.printStackTrace();
         }
          
-        registrationMgr = new RegistrationMgr();
-        auctionMgr = new AuctionMgr();
-        sellerMgr = new SellerMgr();
+        registrationMgr = new RegistrationMgr(em);
+        auctionMgr = new AuctionMgr(em);
+        sellerMgr = new SellerMgr(em);
     }
 
     @Test

@@ -27,14 +27,10 @@ public class ItemDAOJPAImpl implements ItemDAO {
     
     @Override
     public int count() {
-        try {
             Query q = em.createNamedQuery("Item.count", Item.class);
             em.getTransaction().commit();
             return ((Long) q.getSingleResult()).intValue();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
+      
     }
 
     @Override
@@ -45,14 +41,12 @@ public class ItemDAOJPAImpl implements ItemDAO {
             throw new EntityExistsException();
         }
 
-        try {
+
             if (find(item.getId()) == null) {
             em.persist(item);
             em.getTransaction().commit();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
     }
 
     @Override
@@ -62,19 +56,15 @@ public class ItemDAOJPAImpl implements ItemDAO {
         if (find(item.getId()) == null) {
             throw new IllegalArgumentException();
         }
-        try {
-            
-            em.merge(item);
+
+        em.merge(item);
             em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
+        
     }
 
     @Override
     public Item find(Long id) {
-            try {
+
                 Query query = em.createNamedQuery("Item.findByID", Item.class);
                 query.setParameter("id", id);
                 List<Item> items = query.getResultList();
@@ -83,46 +73,29 @@ public class ItemDAOJPAImpl implements ItemDAO {
                     return null;
                 }
             return items.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+       
     }
 
     @Override
     public List<Item> findAll() {
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Item.class));
             return em.createQuery(cq).getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        
     }
 
     @Override
     public List<Item> findByDescription(String description) {
-        try {
             Query q = em.createNamedQuery("Item.findByDescription", Item.class);
             q.setParameter("description", description);
             return (List<Item>) q.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
     public void remove(Item item) {
         em.getTransaction().begin();
-        try {
             em.remove(em.merge(item));
             em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
     }
     
 }

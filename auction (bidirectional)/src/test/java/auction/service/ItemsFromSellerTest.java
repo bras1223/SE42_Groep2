@@ -25,12 +25,12 @@ public class ItemsFromSellerTest {
 
     @Before
     public void setUp() throws Exception {
-        registrationMgr = new RegistrationMgr();
-        auctionMgr = new AuctionMgr();
-        sellerMgr = new SellerMgr();
-        
         emf = Persistence.createEntityManagerFactory("auctionPU");
         em = emf.createEntityManager();
+        
+        registrationMgr = new RegistrationMgr(em);
+        auctionMgr = new AuctionMgr(em);
+        sellerMgr = new SellerMgr(em);
         
         new DatabaseCleaner(em).clean();
     }

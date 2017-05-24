@@ -9,16 +9,16 @@ import auction.domain.Item;
 import auction.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class AuctionMgr  {
 
-   private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
    private ItemDAO itemDAO;
 
-   public AuctionMgr() {
-       itemDAO = new ItemDAOJPAImpl(emf.createEntityManager());
+   public AuctionMgr(EntityManager em) {
+       itemDAO = new ItemDAOJPAImpl(em);
    }
    /**
      * @param id

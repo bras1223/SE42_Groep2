@@ -4,16 +4,16 @@ import java.util.*;
 import auction.domain.User;
 import auction.dao.UserDAO;
 import auction.dao.UserDAOJPAImpl;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class RegistrationMgr {
-
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
+    
     private UserDAO userDAO;
 
-    public RegistrationMgr() {
-        userDAO = new UserDAOJPAImpl(emf.createEntityManager());
+    public RegistrationMgr(EntityManager em) {
+        userDAO = new UserDAOJPAImpl(em);
     }
 
     /**
