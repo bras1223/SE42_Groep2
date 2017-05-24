@@ -78,23 +78,25 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public List<Item> findAll() {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Item.class));
-            return em.createQuery(cq).getResultList();
+        Query query = em.createNamedQuery("Item.getAll", Item.class);
+
+        return query.getResultList();
         
     }
 
     @Override
     public List<Item> findByDescription(String description) {
-            Query q = em.createNamedQuery("Item.findByDescription", Item.class);
-            q.setParameter("description", description);
-            return (List<Item>) q.getResultList();
+        Query query = em.createNamedQuery("Item.findByDescription", Item.class);
+        query.setParameter("description", description);
+        List<Item> items = query.getResultList();
+        return items;
     }
 
     @Override
     public void remove(Item item) {
+        em.remove(item);
         em.getTransaction().begin();
-            em.remove(em.merge(item));
+            
             em.getTransaction().commit();
     }
     

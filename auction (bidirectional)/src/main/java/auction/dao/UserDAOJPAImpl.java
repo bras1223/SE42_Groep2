@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 
 public class UserDAOJPAImpl implements UserDAO {
 
@@ -20,8 +19,7 @@ public class UserDAOJPAImpl implements UserDAO {
 
             Query q = em.createNamedQuery("User.count", User.class);
             return ((Long) q.getSingleResult()).intValue();
-        
-
+       
     }
 
     @Override
@@ -49,28 +47,24 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public List<User> findAll() {
+        Query query = em.createNamedQuery("User.getAll", User.class);
 
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(User.class));
-            return em.createQuery(cq).getResultList();
-       
+        return query.getResultList();   
     }
 
     @Override
     public User findByEmail(String email) {
+        Query query = em.createNamedQuery("User.findByEmail", User.class);
+        query.setParameter("email", email);
+        List<User> users = query.getResultList();
 
-            Query q = em.createNamedQuery("User.findByEmail", User.class);
-            q.setParameter("email", email);
-            return ((User) q.getSingleResult());
-        
+        return users.size() == 1 ? users.get(0) : null;
     }
 
     @Override
     public void remove(User user) {
+        em.remove(user);
         em.getTransaction().begin();
-
-            em.remove(em.merge(user));
-            em.getTransaction().commit();
-        
+        em.getTransaction().commit();      
     }
 }
