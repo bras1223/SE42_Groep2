@@ -46,8 +46,10 @@ public class ItemDAOJPAImpl implements ItemDAO {
         }
 
         try {
+            if (find(item.getId()) == null) {
             em.persist(item);
             em.getTransaction().commit();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,8 +74,15 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public Item find(Long id) {
-        try {
-            return em.find(Item.class, id);
+            try {
+                Query query = em.createNamedQuery("Item.findByID", Item.class);
+                query.setParameter("id", id);
+                List<Item> items = query.getResultList();
+                
+                if (items.size() != 1) {
+                    return null;
+                }
+            return items.get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

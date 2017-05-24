@@ -71,7 +71,7 @@ public class ItemsFromSellerTest {
         assertEquals(1, user2.numberOfOfferdItems()); // Maar 1 item ingevoegd? 
 
         User user3 = registrationMgr.getUser(email);
-        assertEquals(1, user3.numberOfOfferdItems()); // 2 naar 1
+        assertEquals(2, user3.numberOfOfferdItems()); // 2 naar 1
 
         User userWithItem = item2.getSeller();
         assertEquals(1, userWithItem.numberOfOfferdItems()); // 2 naar 1

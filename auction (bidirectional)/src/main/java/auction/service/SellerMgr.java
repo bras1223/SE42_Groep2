@@ -14,11 +14,9 @@ public class SellerMgr {
 
    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auctionPU");
    private ItemDAO itemDAO;
-   private UserDAO userDAO;
    
    public SellerMgr() {
        itemDAO = new ItemDAOJPAImpl(emf.createEntityManager());
-       userDAO = new UserDAOJPAImpl(emf.createEntityManager());
    }
     /**
      * @param seller
@@ -28,11 +26,8 @@ public class SellerMgr {
      *         en met de beschrijving description
      */
     public Item offerItem(User seller, Category cat, String description) {
-        Item item = new Item(seller, cat, description);
-        seller.addItem(item);
-       
+        Item item = new Item(seller, cat, description);  
         itemDAO.create(item);
-        userDAO.edit(seller);
         return item;
     }
     
@@ -42,9 +37,9 @@ public class SellerMgr {
      *         false als er al geboden was op het item.
      */
     public boolean revokeItem(Item item) {
-        Item foundItem = itemDAO.find(item.getId());
+        //Item foundItem = itemDAO.find(item.getId());
         if(item.getHighestBid() == null) {
-            itemDAO.remove(foundItem);
+            itemDAO.remove(item);
             return true;
         } 
         return false;

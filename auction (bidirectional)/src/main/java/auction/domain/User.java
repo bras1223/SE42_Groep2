@@ -3,6 +3,7 @@ package auction.domain;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ public class User implements Serializable{
     private String email;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.PERSIST)
-    private Set<Item> offeredItems = new HashSet<>();
+    private Set<Item> offeredItems;
 
     public User() { 
         
@@ -42,7 +43,7 @@ public class User implements Serializable{
     
     public User(String email) {
         this.email = email;
-
+        offeredItems = new HashSet<>();
     }
 
     public String getEmail() {
@@ -57,7 +58,7 @@ public class User implements Serializable{
         this.id = id;
     }
     
-    public void addItem(Item item) {
+    void addItem(Item item) {
         offeredItems.add(item);
     }
     
@@ -67,5 +68,29 @@ public class User implements Serializable{
     
     public Iterator<Item> getOfferedItems() {
         return offeredItems.iterator();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final User other = (User) obj;
+
+        return Objects.equals(this.id, other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
     }
 }

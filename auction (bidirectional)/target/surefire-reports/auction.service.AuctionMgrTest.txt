@@ -1,14 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: auction.service.AuctionMgrTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 1.986 sec <<< FAILURE!
-newBid(auction.service.AuctionMgrTest)  Time elapsed: 1.783 sec  <<< ERROR!
-java.lang.IllegalStateException: 
-Exception Description: No transaction is currently active
-	at org.eclipse.persistence.internal.jpa.transaction.EntityTransactionImpl.rollback(EntityTransactionImpl.java:176)
-	at auction.dao.ItemDAOJPAImpl.create(ItemDAOJPAImpl.java:61)
-	at auction.service.SellerMgr.offerItem(SellerMgr.java:28)
-	at auction.service.AuctionMgrTest.newBid(AuctionMgrTest.java:77)
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 1.998 sec <<< FAILURE!
+newBid(auction.service.AuctionMgrTest)  Time elapsed: 1.803 sec  <<< ERROR!
+java.lang.IllegalArgumentException
+	at auction.dao.ItemDAOJPAImpl.edit(ItemDAOJPAImpl.java:61)
+	at auction.service.AuctionMgr.newBid(AuctionMgr.java:50)
+	at auction.service.AuctionMgrTest.newBid(AuctionMgrTest.java:78)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -39,13 +37,9 @@ Exception Description: No transaction is currently active
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-getItem(auction.service.AuctionMgrTest)  Time elapsed: 0.084 sec  <<< ERROR!
-java.lang.IllegalStateException: 
-Exception Description: No transaction is currently active
-	at org.eclipse.persistence.internal.jpa.transaction.EntityTransactionImpl.rollback(EntityTransactionImpl.java:176)
-	at auction.dao.ItemDAOJPAImpl.create(ItemDAOJPAImpl.java:61)
-	at auction.service.SellerMgr.offerItem(SellerMgr.java:28)
-	at auction.service.AuctionMgrTest.getItem(AuctionMgrTest.java:37)
+getItem(auction.service.AuctionMgrTest)  Time elapsed: 0.035 sec  <<< ERROR!
+java.lang.NullPointerException
+	at auction.service.AuctionMgrTest.getItem(AuctionMgrTest.java:39)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -76,13 +70,9 @@ Exception Description: No transaction is currently active
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-findItemByDescription(auction.service.AuctionMgrTest)  Time elapsed: 0.055 sec  <<< ERROR!
-java.lang.IllegalStateException: 
-Exception Description: No transaction is currently active
-	at org.eclipse.persistence.internal.jpa.transaction.EntityTransactionImpl.rollback(EntityTransactionImpl.java:176)
-	at auction.dao.ItemDAOJPAImpl.create(ItemDAOJPAImpl.java:61)
-	at auction.service.SellerMgr.offerItem(SellerMgr.java:28)
-	at auction.service.AuctionMgrTest.findItemByDescription(AuctionMgrTest.java:53)
+findItemByDescription(auction.service.AuctionMgrTest)  Time elapsed: 0.086 sec  <<< ERROR!
+java.lang.ClassCastException: java.util.Vector cannot be cast to java.util.ArrayList
+	at auction.service.AuctionMgrTest.findItemByDescription(AuctionMgrTest.java:56)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

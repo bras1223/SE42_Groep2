@@ -50,7 +50,7 @@ public class Item implements Comparable, Serializable {
         this.category = category;
         this.description = description;
         
-        seller.addItem(this);
+        addItemToSeller();
     }
 
     public Long getId() {
@@ -73,8 +73,12 @@ public class Item implements Comparable, Serializable {
         return highest;
     }
 
+    private void addItemToSeller() {
+        seller.addItem(this);
+    }
+    
     public Bid newBid(User buyer, Money amount) {
-        if (highest != null && highest.getAmount().compareTo(amount) >= 0) {
+        if (highest != null && highest.getAmount().compareTo(amount) >= 0 || buyer.equals(seller)) {
             return null;
         }
        
@@ -82,6 +86,7 @@ public class Item implements Comparable, Serializable {
         return highest;
     }
 
+    @Override
     public int compareTo(Object arg0) {
         Item item = (Item) arg0;
         if (this.id > item.id) {
@@ -93,6 +98,7 @@ public class Item implements Comparable, Serializable {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -110,6 +116,7 @@ public class Item implements Comparable, Serializable {
         return id == null ? other.id == null : id.equals(other.id);
     }
 
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

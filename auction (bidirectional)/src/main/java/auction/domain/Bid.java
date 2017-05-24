@@ -43,6 +43,7 @@ public class Bid implements Serializable{
     public Bid(Item item, User buyer, Money amount) {
         this.buyer = buyer;
         this.amount = amount;
+        this.belongsToItem = item;
     }
 
     public FontysTime getTime() {
