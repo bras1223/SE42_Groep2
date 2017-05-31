@@ -16,3 +16,4 @@ build/
 *.tar.gz
 *.rar
 /auction-assignment/target/
+/AuctionClient/nbproject/private/
