@@ -6,11 +6,13 @@
 package auction.domain;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Luuk
  */
+@XmlRootElement
 @Entity
 public class Furniture extends Item {
     private String material;

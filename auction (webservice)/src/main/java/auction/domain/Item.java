@@ -16,8 +16,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import nl.fontys.util.Money;
 
+@XmlRootElement
 @Entity
 @Inheritance (strategy = InheritanceType.JOINED)
 @NamedQueries({
@@ -26,6 +30,7 @@ import nl.fontys.util.Money;
     @NamedQuery(name = "Item.findByID", query = "select i from Item as i where i.id = :id"),
     @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description")
 })
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Comparable, Serializable {
 
     @Id

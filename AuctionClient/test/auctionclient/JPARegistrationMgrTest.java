@@ -7,30 +7,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import auction.domain.User;
-import java.sql.SQLException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import util.DatabaseCleaner;
-
 public class JPARegistrationMgrTest {
 
-    private RegistrationMgr registrationMgr;
-    private EntityManagerFactory emf;
-    private EntityManager em;
-    
-    private  DatabaseCleaner databaseCleaner;
-    
+    private RegistrationMethods registrationMgr;
+
     @Before
     public void setUp() throws Exception {
-        emf = Persistence.createEntityManagerFactory("auctionPU");
-        em = emf.createEntityManager();
-        
-        registrationMgr = new RegistrationMgr(em);
-       
-        
-        new DatabaseCleaner(em).clean();
+       cleanDB();
     }
 
     @Test
@@ -55,24 +38,10 @@ public class JPARegistrationMgrTest {
         assertNull(registrationMgr.getUser("abc"));
     }
 
-    @Test
-    public void getUsers() {
-        List<User> users = registrationMgr.getUsers();
-        assertEquals(0, users.size());
-
-        User user1 = registrationMgr.registerUser("xxx8@yyy");
-        users = registrationMgr.getUsers();
-        assertEquals(1, users.size());
-        assertSame(users.get(0), user1);
-
-
-        User user2 = registrationMgr.registerUser("xxx9@yyy");
-        users = registrationMgr.getUsers();
-        assertEquals(2, users.size());
-
-        registrationMgr.registerUser("abc");
-        //geen nieuwe user toegevoegd, dus gedrag hetzelfde als hiervoor
-        users = registrationMgr.getUsers();
-        assertEquals(2, users.size());
+    private static void cleanDB() {
+        auctionclient.AuctionService service = new auctionclient.AuctionService();
+        auctionclient.Auction port = service.getAuctionPort();
+        port.cleanDB();
     }
+
 }

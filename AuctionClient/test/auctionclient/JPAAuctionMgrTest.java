@@ -2,47 +2,21 @@ package auctionclient;
 
 import static org.junit.Assert.*;
 
-import nl.fontys.util.Money;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import auction.domain.Bid;
-import auction.domain.Category;
-import auction.domain.Item;
-import auction.domain.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import util.DatabaseCleaner;
 
 public class JPAAuctionMgrTest {
 
-    private AuctionMgr auctionMgr;
-    private RegistrationMgr registrationMgr;
-    private SellerMgr sellerMgr;
-
-    private  DatabaseCleaner databaseCleaner;
-    private EntityManager em;
+    RegistrationMethods registrationMgr;
+    AuctionMethods sellerMgr;
+    AuctionMethods auctionMgr;
     
     @Before
     public void setUp() throws Exception {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("auctionPU");
-        em = entityManagerFactory.createEntityManager();
-        
-        databaseCleaner = new DatabaseCleaner(em);
-         try {
-            databaseCleaner.clean();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-         
-        registrationMgr = new RegistrationMgr(em);
-        auctionMgr = new AuctionMgr(em);
-        sellerMgr = new SellerMgr(em);
+        cleanDB();   
     }
 
     @Test
@@ -51,8 +25,9 @@ public class JPAAuctionMgrTest {
         String email = "xx2@nl";
         String omsch = "omsch";
 
-        User seller1 = registrationMgr.registerUser(email);
-        Category cat = new Category("cat2");
+        User seller1 = RegistrationMethods.registerUser(email);
+        Category cat = new Category();
+        cat.setDescription("cat2");
         Item item1 = sellerMgr.offerItem(seller1, cat, omsch);
         Item item2 = auctionMgr.getItem(item1.getId());
         assertEquals(omsch, item2.getDescription());
@@ -68,7 +43,8 @@ public class JPAAuctionMgrTest {
 
         User seller3 = registrationMgr.registerUser(email3);
         User seller4 = registrationMgr.registerUser(email4);
-        Category cat = new Category("cat3");
+        Category cat = new Category();
+        cat.setDescription("cat3");
         Item item1 = sellerMgr.offerItem(seller3, cat, omsch);
         Item item2 = sellerMgr.offerItem(seller4, cat, omsch);
 
@@ -92,17 +68,29 @@ public class JPAAuctionMgrTest {
         User buyer = registrationMgr.registerUser(emailb);
         User buyer2 = registrationMgr.registerUser(emailb2);
         // eerste bod
-        Category cat = new Category("cat9");
+        Category cat = new Category();
+        cat.setDescription("cat9");
         Item item1 = sellerMgr.offerItem(seller, cat, omsch);
-        Bid new1 = auctionMgr.newBid(item1, buyer, new Money(10, "eur"));
+        Money money = new Money();
+        money.cents = 10;
+        money.currency = "eur";
+        Bid new1 = auctionMgr.newBid(item1, buyer, money);
         assertEquals(emailb, new1.getBuyer().getEmail());
 
+        money.cents = 9;
         // lager bod
-        Bid new2 = auctionMgr.newBid(item1, buyer2, new Money(9, "eur"));
+        Bid new2 = auctionMgr.newBid(item1, buyer2, money);
         assertNull(new2);
 
+        money.cents = 11;
         // hoger bod
-        Bid new3 = auctionMgr.newBid(item1, buyer2, new Money(11, "eur"));
+        Bid new3 = auctionMgr.newBid(item1, buyer2, money);
         assertEquals(emailb2, new3.getBuyer().getEmail());
+    }
+
+    private static void cleanDB() {
+        auctionclient.AuctionService service = new auctionclient.AuctionService();
+        auctionclient.Auction port = service.getAuctionPort();
+        port.cleanDB();
     }
 }

@@ -6,12 +6,17 @@
 package auction.domain;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Luuk
  */
+@XmlRootElement
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Painting extends Item {
     
     private String title;

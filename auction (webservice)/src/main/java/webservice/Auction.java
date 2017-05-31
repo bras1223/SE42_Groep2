@@ -3,7 +3,9 @@ package webservice;
 
 import auction.domain.Bid;
 import auction.domain.Category;
+import auction.domain.Furniture;
 import auction.domain.Item;
+import auction.domain.Painting;
 import auction.domain.User;
 import auction.service.AuctionMgr;
 import auction.service.RegistrationMgr;
@@ -50,6 +52,14 @@ public class Auction {
     
     public Item offerItem(User seller, Category cat, String description) {
         return sellerMgr.offerItem(seller, cat, description);
+    }
+    
+    public Furniture offerFurniture(User seller, Category cat, String description, String material) {
+        return sellerMgr.offerFurniture(seller, cat, description, material);
+    }
+    
+    public Painting offerPainting(User seller, Category cat, String description, String title, String painter) {
+        return offerPainting(seller, cat, description, title, painter);
     }
     
     public boolean revokeItem(Item item) {

@@ -2,43 +2,21 @@ package auctionclient;
 
 import static org.junit.Assert.*;
 
-import nl.fontys.util.Money;
 
 import org.junit.Before;
 import org.junit.Test;
 
-
-
-import auction.domain.Category;
-import auction.domain.Item;
-import auction.domain.User;
-import java.sql.SQLException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import util.DatabaseCleaner;
-
 public class JPASellerMgrTest {
 
-    private AuctionMgr auctionMgr;
-    private RegistrationMgr registrationMgr;
-    private SellerMgr sellerMgr;
+    private AuctionMethods auctionMgr;
+    private RegistrationMethods registrationMgr;
+    private AuctionMethods sellerMgr;
     
-    private EntityManagerFactory emf;
-    private EntityManager em;
-    
-    private  DatabaseCleaner databaseCleaner;
+  
     
     @Before
     public void setUp() throws Exception {
-        emf = Persistence.createEntityManagerFactory("auctionPU");
-        em = emf.createEntityManager();
-        
-        registrationMgr = new RegistrationMgr(em);
-        auctionMgr = new AuctionMgr(em);
-        sellerMgr = new SellerMgr(em);
-        
-        new DatabaseCleaner(em).clean();
+       cleanDB();
     }
 
     /**
@@ -49,7 +27,8 @@ public class JPASellerMgrTest {
         String omsch = "omsch";
 
         User user1 = registrationMgr.registerUser("xx@nl");
-        Category cat = new Category("cat1");
+        Category cat = new Category();
+        cat.setDescription("cat1");
         Item item1 = sellerMgr.offerItem(user1, cat, omsch);
         assertEquals(omsch, item1.getDescription());
         assertNotNull(item1.getId());
@@ -66,7 +45,8 @@ public class JPASellerMgrTest {
     
         User seller = registrationMgr.registerUser("sel@nl");
         User buyer = registrationMgr.registerUser("buy@nl");
-        Category cat = new Category("cat1");
+        Category cat = new Category();
+        cat.setDescription("cat1");
         
             // revoke before bidding
         Item item1 = sellerMgr.offerItem(seller, cat, omsch);
@@ -77,11 +57,20 @@ public class JPASellerMgrTest {
         
             // revoke after bid has been made
         Item item2 = sellerMgr.offerItem(seller, cat, omsch2);
-        auctionMgr.newBid(item2, buyer, new Money(100, "Euro"));
+        Money money = new Money();
+        money.cents = 100;
+        money.currency = "Euro";
+        auctionMgr.newBid(item2, buyer, money);
         boolean res2 = sellerMgr.revokeItem(item2);
         assertFalse(res2);
         int count2 = auctionMgr.findItemByDescription(omsch2).size();
         assertEquals(1, count2);
+    }
+
+    private static void cleanDB() {
+        auctionclient.AuctionService service = new auctionclient.AuctionService();
+        auctionclient.Auction port = service.getAuctionPort();
+        port.cleanDB();
     }
 
 }
