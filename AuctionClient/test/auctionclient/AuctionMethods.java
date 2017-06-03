@@ -16,7 +16,7 @@ public class AuctionMethods {
     private static final AuctionService service = new AuctionService();
 
     public static List<Item> findItemByDescription(String description) {
-        auctionclient.Auction port = service.getAuctionPort();
+        Auction port = service.getAuctionPort();
         return port.findItemByDescription(description);
     }
 
@@ -31,6 +31,7 @@ public class AuctionMethods {
     }
 
     public static Item offerItem(User user, Category cat, String description) {
+        System.out.println(service.getAuctionPort());
         Auction port = service.getAuctionPort();
         return port.offerItem(user, cat, description);
     }

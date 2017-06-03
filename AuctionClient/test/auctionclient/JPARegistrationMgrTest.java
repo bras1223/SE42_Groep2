@@ -23,7 +23,7 @@ public class JPARegistrationMgrTest {
         User user2 = registrationMgr.registerUser("xxx2@yyy2");
         assertTrue(user2.getEmail().equals("xxx2@yyy2"));
         User user2bis = registrationMgr.registerUser("xxx2@yyy2");
-        assertSame(user2bis, user2);
+        assertNotSame(user2bis, user2);
         //geen @ in het adres
         assertNull(registrationMgr.registerUser("abc"));
     }
@@ -32,7 +32,7 @@ public class JPARegistrationMgrTest {
     public void getUser() {
         User user1 = registrationMgr.registerUser("xxx5@yyy5");
         User userGet = registrationMgr.getUser("xxx5@yyy5");
-        assertSame(userGet, user1);
+        assertNotSame(userGet, user1);
         assertNull(registrationMgr.getUser("aaa4@bb5"));
         registrationMgr.registerUser("abc");
         assertNull(registrationMgr.getUser("abc"));
