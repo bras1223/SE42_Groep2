@@ -16,21 +16,16 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public int count() {
-
-            Query q = em.createNamedQuery("User.count", User.class);
-            return ((Long) q.getSingleResult()).intValue();
-       
+        Query q = em.createNamedQuery("User.count", User.class);
+        return ((Long) q.getSingleResult()).intValue();
     }
 
     @Override
     public void create(User user) {
-
         if (findByEmail(user.getEmail()) != null) {
             return;
         }
-
         em.persist(user);
-        
     }
 
     @Override
@@ -38,16 +33,14 @@ public class UserDAOJPAImpl implements UserDAO {
         if (findByEmail(user.getEmail()) == null) {
             return;
         }
-
-            em.merge(user);
-        
+        em.merge(user);
     }
 
     @Override
     public List<User> findAll() {
         Query query = em.createNamedQuery("User.getAll", User.class);
 
-        return query.getResultList();   
+        return query.getResultList();
     }
 
     @Override
@@ -61,6 +54,6 @@ public class UserDAOJPAImpl implements UserDAO {
 
     @Override
     public void remove(User user) {
-        em.remove(user);      
+        em.remove(user);
     }
 }

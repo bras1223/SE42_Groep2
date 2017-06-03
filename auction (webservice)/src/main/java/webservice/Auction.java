@@ -59,7 +59,7 @@ public class Auction {
     }
     
     public Painting offerPainting(User seller, Category cat, String description, String title, String painter) {
-        return offerPainting(seller, cat, description, title, painter);
+        return sellerMgr.offerPainting(seller, cat, description, title, painter);
     }
     
     public boolean revokeItem(Item item) {
