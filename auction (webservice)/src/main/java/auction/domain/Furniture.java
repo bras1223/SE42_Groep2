@@ -5,6 +5,7 @@
  */
 package auction.domain;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -14,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @Entity
-public class Furniture extends Item {
+public class Furniture extends Item implements Serializable{
     private String material;
 
     public Furniture () {

@@ -5,6 +5,7 @@
  */
 package auction.domain;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Painting extends Item {
+public class Painting extends Item implements Serializable {
     
     private String title;
     private String painter;

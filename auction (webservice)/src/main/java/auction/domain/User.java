@@ -36,7 +36,7 @@ public class User implements Serializable{
     private String email;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.PERSIST)
-    private Set<Item> offeredItems;
+    private Set<Item> offeredItems = new HashSet<>();
 
     public User() { 
         

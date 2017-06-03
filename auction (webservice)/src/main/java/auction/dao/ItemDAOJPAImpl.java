@@ -37,7 +37,7 @@ public class ItemDAOJPAImpl implements ItemDAO {
     public void create(Item item) {
 
         if (find(item.getId()) != null) {
-            throw new EntityExistsException();
+            return;
         }
 
 
@@ -50,7 +50,7 @@ public class ItemDAOJPAImpl implements ItemDAO {
     @Override
     public void edit(Item item) {
         if (find(item.getId()) == null) {
-            throw new IllegalArgumentException();
+            return;
         }
 
         em.merge(item);

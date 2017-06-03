@@ -26,7 +26,7 @@ public class UserDAOJPAImpl implements UserDAO {
     public void create(User user) {
 
         if (findByEmail(user.getEmail()) != null) {
-            throw new EntityExistsException();
+            return;
         }
 
         em.persist(user);
@@ -36,7 +36,7 @@ public class UserDAOJPAImpl implements UserDAO {
     @Override
     public void edit(User user) {
         if (findByEmail(user.getEmail()) == null) {
-            throw new IllegalArgumentException();
+            return;
         }
 
             em.merge(user);

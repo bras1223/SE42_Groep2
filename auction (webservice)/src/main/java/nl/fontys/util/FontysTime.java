@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Embeddable
-public class FontysTime{
+public class FontysTime implements Serializable{
 	private long seconds;
 
 	public FontysTime() {
