@@ -13,7 +13,7 @@ public class JPARegistrationMgrTest {
 
     @Before
     public void setUp() throws Exception {
-       cleanDB();
+        AuctionMethods.cleanDB();
     }
 
     @Test
@@ -36,12 +36,6 @@ public class JPARegistrationMgrTest {
         assertNull(registrationMgr.getUser("aaa4@bb5"));
         registrationMgr.registerUser("abc");
         assertNull(registrationMgr.getUser("abc"));
-    }
-
-    private static void cleanDB() {
-        auctionclient.AuctionService service = new auctionclient.AuctionService();
-        auctionclient.Auction port = service.getAuctionPort();
-        port.cleanDB();
     }
 
 }

@@ -18,7 +18,7 @@ public class ItemsFromSellerTest {
 
     @Before
     public void setUp() throws Exception {
-       cleanDB();
+        AuctionMethods.cleanDB();
     }
 
     @Test
@@ -116,11 +116,5 @@ public class ItemsFromSellerTest {
         it30.next();
         assertTrue(it30.hasNext());
 
-    }
-
-    private static void cleanDB() {
-        auctionclient.AuctionService service = new auctionclient.AuctionService();
-        auctionclient.Auction port = service.getAuctionPort();
-        port.cleanDB();
     }
 }

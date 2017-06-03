@@ -12,14 +12,13 @@ package auctionclient;
 public class RegistrationMethods {
 
     private static final RegistrationService service = new RegistrationService();
+    private static final Registration port = service.getRegistrationPort();
     
     public static User getUser(String email) {
-        Registration port = service.getRegistrationPort();
         return port.getUser(email);
     }
 
     public static User registerUser(String email) {
-        Registration port = service.getRegistrationPort();
         return port.registerUser(email);
     }
     

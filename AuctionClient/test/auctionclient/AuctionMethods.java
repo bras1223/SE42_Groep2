@@ -14,31 +14,30 @@ import java.util.List;
 public class AuctionMethods {
     
     private static final AuctionService service = new AuctionService();
+    private static final Auction port = service.getAuctionPort();
 
     public static List<Item> findItemByDescription(String description) {
-        Auction port = service.getAuctionPort();
         return port.findItemByDescription(description);
     }
 
     public static Item getItem(Long id) {
-        Auction port = service.getAuctionPort();
         return port.getItem(id);
     }
 
     public static Bid newBid(Item item, User bidder, Money costs) {
-        Auction port = service.getAuctionPort();
         return port.newBid(item, bidder, costs);
     }
 
     public static Item offerItem(User user, Category cat, String description) {
-        System.out.println(service.getAuctionPort());
-        Auction port = service.getAuctionPort();
         return port.offerItem(user, cat, description);
     }
 
     public static boolean revokeItem(Item item) {
-        Auction port = service.getAuctionPort();
         return port.revokeItem(item);
+    }
+    
+    public static void cleanDB() {
+        port.cleanDB();
     }
     
 }

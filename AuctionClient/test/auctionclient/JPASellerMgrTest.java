@@ -16,7 +16,7 @@ public class JPASellerMgrTest {
     
     @Before
     public void setUp() throws Exception {
-       cleanDB();
+        AuctionMethods.cleanDB();
     }
 
     /**
@@ -66,11 +66,4 @@ public class JPASellerMgrTest {
         int count2 = auctionMgr.findItemByDescription(omsch2).size();
         assertEquals(1, count2);
     }
-
-    private static void cleanDB() {
-        auctionclient.AuctionService service = new auctionclient.AuctionService();
-        auctionclient.Auction port = service.getAuctionPort();
-        port.cleanDB();
-    }
-
 }

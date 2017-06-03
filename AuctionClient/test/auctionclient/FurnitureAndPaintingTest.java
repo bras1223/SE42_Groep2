@@ -14,7 +14,7 @@ public class FurnitureAndPaintingTest {
 
     @Before
     public void setUp() throws Exception {
-        cleanDB();
+        AuctionMethods.cleanDB();
     }
 
     
@@ -64,11 +64,5 @@ public class FurnitureAndPaintingTest {
         int i = 3;
         assertEquals(foundFurniture.getHighestBid(), bid);
         assertTrue(foundFurniture.getClass() == Furniture.class);
-    }
-
-    private static void cleanDB() {
-        auctionclient.AuctionService service = new auctionclient.AuctionService();
-        auctionclient.Auction port = service.getAuctionPort();
-        port.cleanDB();
     }
 }

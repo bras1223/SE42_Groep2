@@ -16,7 +16,7 @@ public class JPAAuctionMgrTest {
     
     @Before
     public void setUp() throws Exception {
-        cleanDB();   
+        AuctionMethods.cleanDB();
     }
 
     @Test
@@ -86,11 +86,5 @@ public class JPAAuctionMgrTest {
         // hoger bod
         Bid new3 = auctionMgr.newBid(item1, buyer2, money);
         assertEquals(emailb2, new3.getBuyer().getEmail());
-    }
-
-    private static void cleanDB() {
-        auctionclient.AuctionService service = new auctionclient.AuctionService();
-        auctionclient.Auction port = service.getAuctionPort();
-        port.cleanDB();
     }
 }
