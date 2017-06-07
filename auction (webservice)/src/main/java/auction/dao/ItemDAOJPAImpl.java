@@ -31,16 +31,15 @@ public class ItemDAOJPAImpl implements ItemDAO {
 
     @Override
     public void create(Item item) {
-        if (find(item.getId()) != null) {
-            return;
-        }
+        if (find(item.getId()) == null) {
         em.persist(item);
+        }
     }
 
     @Override
     public void edit(Item item) {
         if (find(item.getId()) == null) {
-            return;
+            throw new IllegalArgumentException();
         }
         em.merge(item);
     }
