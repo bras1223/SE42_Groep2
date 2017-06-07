@@ -32,7 +32,7 @@ public class Bid implements Serializable{
     @Column (name = "bid_time")
     private FontysTime time;
     
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne
     private User buyer;
     
     @Embedded

@@ -36,7 +36,7 @@ public class Item implements Comparable, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne
     private User seller;
     
     @Embedded
@@ -45,7 +45,7 @@ public class Item implements Comparable, Serializable {
     
     private String description;
     
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     private Bid highest;
 
     public Item() {
