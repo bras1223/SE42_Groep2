@@ -53,6 +53,8 @@ public class JPAAuctionMgrTest {
 
         User seller1 = registrationMgr.registerUser(email);
         Category cat = new Category("cat2");
+        
+        
         Item item1 = sellerMgr.offerItem(seller1, cat, omsch);
         Item item2 = auctionMgr.getItem(item1.getId());
         assertEquals(omsch, item2.getDescription());

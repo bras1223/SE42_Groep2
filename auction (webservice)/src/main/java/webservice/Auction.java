@@ -30,10 +30,12 @@ public class Auction {
     
     private AuctionMgr auctionMgr;
     private SellerMgr sellerMgr;
+    private DatabaseCleaner dbcln;
     private EntityManager em;
     
     public Auction(EntityManager em) {
         this.em = em;
+        dbcln = new DatabaseCleaner(em);
         auctionMgr = new AuctionMgr(em);
         sellerMgr = new SellerMgr(em);
     }
@@ -67,7 +69,6 @@ public class Auction {
     }
     
     public void cleanDB() {
-        DatabaseCleaner dbcln = new DatabaseCleaner(em);
         try {
             dbcln.clean();
         } catch (SQLException ex) {
