@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import nl.fontys.util.Money;
 
@@ -37,15 +39,19 @@ public class Item implements Comparable, Serializable {
     private Long id;
     
     @ManyToOne
+    @XmlElement(required = true)
     private User seller;
     
     @Embedded
+    @XmlElement(required = true)
     @AttributeOverride(name = "description", column = @Column(name = "CAT_DESCRIPTION"))
     private Category category;
     
+    @XmlAttribute(required = true)
     private String description;
     
     @OneToOne
+    @XmlElement(name = "highest")
     private Bid highest;
 
     public Item() {
@@ -56,8 +62,6 @@ public class Item implements Comparable, Serializable {
         this.seller = seller;
         this.category = category;
         this.description = description;
-        
-        addItemToSeller();
     }
 
     public Long getId() {
@@ -78,10 +82,6 @@ public class Item implements Comparable, Serializable {
 
     public Bid getHighestBid() {
         return highest;
-    }
-
-    private void addItemToSeller() {
-        seller.addItem(this);
     }
     
     public Bid newBid(User buyer, Money amount) {

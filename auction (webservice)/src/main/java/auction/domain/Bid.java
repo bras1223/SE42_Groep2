@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import nl.fontys.util.FontysTime;
 import nl.fontys.util.Money;
@@ -29,18 +30,17 @@ public class Bid implements Serializable{
     private Long id;
     
     @Embedded
+    @XmlElement
     @Column (name = "bid_time")
     private FontysTime time;
     
+    @XmlElement(required = true)
     @ManyToOne
     private User buyer;
     
+    @XmlElement(required = true)
     @Embedded
     private Money amount;
-
-    @OneToOne (mappedBy = "highest", cascade = CascadeType.PERSIST)
-    @JoinColumn(nullable = false)
-    private Item belongsToItem;
     
     public Bid() {
         
@@ -49,7 +49,6 @@ public class Bid implements Serializable{
     public Bid(Item item, User buyer, Money amount) {
         this.buyer = buyer;
         this.amount = amount;
-        this.belongsToItem = item;
     }
 
     public FontysTime getTime() {
@@ -72,10 +71,6 @@ public class Bid implements Serializable{
         this.id = id;
     }
 
-    public Item getBelongsToItem() {
-        return belongsToItem;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -95,9 +90,6 @@ public class Bid implements Serializable{
             return false;
         }
         if (!Objects.equals(this.amount, other.amount)) {
-            return false;
-        }
-        if (!Objects.equals(this.belongsToItem, other.belongsToItem)) {
             return false;
         }
         return true;

@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -33,10 +34,8 @@ public class User implements Serializable{
     private Long id;
     
     @Column(unique = true)
+    @XmlAttribute(required = true)
     private String email;
-
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.PERSIST)
-    private Set<Item> offeredItems = new HashSet<>();
 
     public User() { 
         
@@ -48,7 +47,6 @@ public class User implements Serializable{
     
     public User(String email) {
         this.email = email;
-        offeredItems = new HashSet<>();
     }
 
     public String getEmail() {
@@ -61,18 +59,6 @@ public class User implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    void addItem(Item item) {
-        offeredItems.add(item);
-    }
-    
-    public int numberOfOfferdItems() {
-        return offeredItems.size();
-    }
-    
-    public Iterator<Item> getOfferedItems() {
-        return offeredItems.iterator();
     }
     
     @Override
