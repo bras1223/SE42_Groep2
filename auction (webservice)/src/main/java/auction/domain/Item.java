@@ -23,7 +23,6 @@ import nl.fontys.util.Money;
 
 @XmlRootElement
 @Entity
-@Inheritance (strategy = InheritanceType.JOINED)
 @NamedQueries({
     @NamedQuery(name = "Item.getAll", query = "select i from Item as i"),
     @NamedQuery(name = "Item.count", query = "select count(i) from Item as i"),

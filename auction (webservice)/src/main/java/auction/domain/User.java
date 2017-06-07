@@ -92,10 +92,4 @@ public class User implements Serializable{
         return Objects.equals(this.id, other.id);
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
-        return hash;
-    }
 }

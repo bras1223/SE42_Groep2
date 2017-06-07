@@ -36,8 +36,6 @@ public class RegistrationMgr {
         User user = new User(email);
         userDAO.create(user);
         em.getTransaction().commit();
-        
-        user = userDAO.findByEmail(email);
         return user;
     }
 
