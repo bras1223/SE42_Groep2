@@ -9,33 +9,36 @@ import org.junit.Test;
 
 public class JPARegistrationMgrTest {
 
-    private RegistrationMethods registrationMgr;
+    private Registration registrationService;
+    private Auction auctionService;
 
     @Before
     public void setUp() throws Exception {
-        AuctionMethods.cleanDB();
+        registrationService = new RegistrationService().getRegistrationPort();
+        auctionService = new AuctionService().getAuctionPort();
+        auctionService.cleanDB();
     }
 
     @Test
     public void registerUser() {
-        User user1 = registrationMgr.registerUser("xxx1@yyy");
+        User user1 = registrationService.registerUser("xxx1@yyy");
         assertTrue(user1.getEmail().equals("xxx1@yyy"));
-        User user2 = registrationMgr.registerUser("xxx2@yyy2");
+        User user2 = registrationService.registerUser("xxx2@yyy2");
         assertTrue(user2.getEmail().equals("xxx2@yyy2"));
-        User user2bis = registrationMgr.registerUser("xxx2@yyy2");
+        User user2bis = registrationService.registerUser("xxx2@yyy2");
         assertNotSame(user2bis, user2);
         //geen @ in het adres
-        assertNull(registrationMgr.registerUser("abc"));
+        assertNull(registrationService.registerUser("abc"));
     }
 
     @Test
     public void getUser() {
-        User user1 = registrationMgr.registerUser("xxx5@yyy5");
-        User userGet = registrationMgr.getUser("xxx5@yyy5");
+        User user1 = registrationService.registerUser("xxx5@yyy5");
+        User userGet = registrationService.getUser("xxx5@yyy5");
         assertNotSame(userGet, user1);
-        assertNull(registrationMgr.getUser("aaa4@bb5"));
-        registrationMgr.registerUser("abc");
-        assertNull(registrationMgr.getUser("abc"));
+        assertNull(registrationService.getUser("aaa4@bb5"));
+        registrationService.registerUser("abc");
+        assertNull(registrationService.getUser("abc"));
     }
 
 }

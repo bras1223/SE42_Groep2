@@ -8,15 +8,16 @@ import org.junit.Test;
 
 public class JPASellerMgrTest {
 
-    private AuctionMethods auctionMgr;
-    private RegistrationMethods registrationMgr;
-    private AuctionMethods sellerMgr;
+    private Auction auctionService;
+    private Registration registrationService;
     
   
     
     @Before
     public void setUp() throws Exception {
-        AuctionMethods.cleanDB();
+        registrationService = new RegistrationService().getRegistrationPort();
+        auctionService = new AuctionService().getAuctionPort();
+        auctionService.cleanDB();
     }
 
     /**
@@ -26,10 +27,10 @@ public class JPASellerMgrTest {
     public void testOfferItem() {
         String omsch = "omsch";
 
-        User user1 = registrationMgr.registerUser("xx@nl");
+        User user1 = registrationService.registerUser("xx@nl");
         Category cat = new Category();
         cat.setDescription("cat1");
-        Item item1 = sellerMgr.offerItem(user1, cat, omsch);
+        Item item1 = auctionService.offerItem(user1, cat, omsch);
         assertEquals(omsch, item1.getDescription());
         assertNotNull(item1.getId());
     }
@@ -43,27 +44,27 @@ public class JPASellerMgrTest {
         String omsch2 = "omsch2";
         
     
-        User seller = registrationMgr.registerUser("sel@nl");
-        User buyer = registrationMgr.registerUser("buy@nl");
+        User seller = registrationService.registerUser("sel@nl");
+        User buyer = registrationService.registerUser("buy@nl");
         Category cat = new Category();
         cat.setDescription("cat1");
         
             // revoke before bidding
-        Item item1 = sellerMgr.offerItem(seller, cat, omsch);
-        boolean res = sellerMgr.revokeItem(item1);
+        Item item1 = auctionService.offerItem(seller, cat, omsch);
+        boolean res = auctionService.revokeItem(item1);
         assertTrue(res);
-        int count = auctionMgr.findItemByDescription(omsch).size();
+        int count = auctionService.findItemByDescription(omsch).size();
         assertEquals(0, count);
         
             // revoke after bid has been made
-        Item item2 = sellerMgr.offerItem(seller, cat, omsch2);
+        Item item2 = auctionService.offerItem(seller, cat, omsch2);
         Money money = new Money();
         money.cents = 100;
         money.currency = "Euro";
-        auctionMgr.newBid(item2, buyer, money);
-        boolean res2 = sellerMgr.revokeItem(item2);
+        auctionService.newBid(item2, buyer, money);
+        boolean res2 = auctionService.revokeItem(item2);
         assertFalse(res2);
-        int count2 = auctionMgr.findItemByDescription(omsch2).size();
+        int count2 = auctionService.findItemByDescription(omsch2).size();
         assertEquals(1, count2);
     }
 }

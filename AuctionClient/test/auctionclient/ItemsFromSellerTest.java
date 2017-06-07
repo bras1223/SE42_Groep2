@@ -9,16 +9,17 @@ import static org.junit.Assert.*;
 
 public class ItemsFromSellerTest {
 
-    RegistrationMethods registrationMgr;
-    AuctionMethods auctionMgr;
-    AuctionMethods sellerMgr;
+    Registration registrationService;
+    Auction auctionService;
         
     public ItemsFromSellerTest() {
     }
 
     @Before
     public void setUp() throws Exception {
-        AuctionMethods.cleanDB();
+        registrationService = new RegistrationService().getRegistrationPort();
+        auctionService = new AuctionService().getAuctionPort();
+        auctionService.cleanDB();
     }
 
     @Test
@@ -29,12 +30,12 @@ public class ItemsFromSellerTest {
         String omsch1 = "omsch_ifu1";
         String omsch2 = "omsch_ifu2";
 
-        User user1 = RegistrationMethods.registerUser(email);
+        User user1 = registrationService.registerUser(email);
         assertEquals(0, user1.getOfferedItems().size());
 
         Category cat = new Category();
         cat.setDescription("cat2");
-        Item item1 = AuctionMethods.offerItem(user1, cat, omsch1);
+        Item item1 = auctionService.offerItem(user1, cat, omsch1);
 
        
         // test number of items belonging to user1
@@ -52,12 +53,12 @@ public class ItemsFromSellerTest {
         assertEquals(1, item1.getSeller().getOfferedItems().size());
 
 
-        User user2 = RegistrationMethods.getUser(email);
+        User user2 = registrationService.getUser(email);
         assertEquals(1, user2.getOfferedItems().size());
-        Item item2 = AuctionMethods.offerItem(user2, cat, omsch2);
+        Item item2 = auctionService.offerItem(user2, cat, omsch2);
         assertEquals(2, user2.getOfferedItems().size()); // Maar 1 item ingevoegd? 
 
-        User user3 = RegistrationMethods.getUser(email);
+        User user3 = registrationService.getUser(email);
         assertEquals(2, user3.getOfferedItems().size()); // 2 naar 1
 
         User userWithItem = item2.getSeller();
@@ -85,14 +86,14 @@ public class ItemsFromSellerTest {
         Category cat = new Category();
         cat.setDescription("cat2");
 
-        User user10 = RegistrationMethods.registerUser(email);
-        Item item10 = AuctionMethods.offerItem(user10, cat, omsch1);
+        User user10 = registrationService.registerUser(email);
+        Item item10 = auctionService.offerItem(user10, cat, omsch1);
         Iterator<Item> it = user10.getOfferedItems().iterator();
         // testing number of items of java object
         assertTrue(it.hasNext());
         
         // now testing number of items for same user fetched from db.
-        User user11 = RegistrationMethods.getUser(email);
+        User user11 = registrationService.getUser(email);
         Iterator<Item> it11 = user11.getOfferedItems().iterator();
         assertTrue(it11.hasNext());
         it11.next();
@@ -102,8 +103,8 @@ public class ItemsFromSellerTest {
 
         
         
-        User user20 = RegistrationMethods.getUser(email);
-        Item item20 = AuctionMethods.offerItem(user20, cat, omsch2);
+        User user20 = registrationService.getUser(email);
+        Item item20 = auctionService.offerItem(user20, cat, omsch2);
         Iterator<Item> it20 = user20.getOfferedItems().iterator();
         assertTrue(it20.hasNext());
         it20.next();
