@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nl.nossa.constants.Constants;
 
 /**
  *
@@ -18,12 +19,6 @@ import java.util.logging.Logger;
 public class KeyGenerator {
 
     private static final Logger logger = Logger.getLogger(KeyGenerator.class.getName());
-    private static final String SECURE_RANDOM_ALGORITHM = "SHA1PRNG";
-    private static final String ALGORITHM = "RSA";
-    private static final int KEY_BIT_SIZE = 1024;
-    
-    private static final String PUBLIC_KEY_FILE_NAME = "public.txt";
-    private static final String PRIVATE_KEY_FILE_NAME = "private.txt";
     
     /**
      * Intializes the Keygenrator.
@@ -39,9 +34,9 @@ public class KeyGenerator {
      */
     public void generateKeys() {
         try {
-            SecureRandom random = SecureRandom.getInstance(SECURE_RANDOM_ALGORITHM);
-            KeyPairGenerator generator = KeyPairGenerator.getInstance(ALGORITHM);
-            generator.initialize(KEY_BIT_SIZE, random);
+            SecureRandom random = SecureRandom.getInstance(Constants.SECURE_RANDOM_ALGORITHM);
+            KeyPairGenerator generator = KeyPairGenerator.getInstance(Constants.ALGORITHM);
+            generator.initialize(Constants.KEY_BIT_SIZE, random);
             
             KeyPair keys = generator.genKeyPair();
             
@@ -55,7 +50,7 @@ public class KeyGenerator {
     }
 
     private void persistPrivateKey(byte[] privateKeyBytes) {
-        try (OutputStream fos = new FileOutputStream(PRIVATE_KEY_FILE_NAME)){
+        try (OutputStream fos = new FileOutputStream(Constants.PRIVATE_KEY_FILE_NAME)){
             fos.write(privateKeyBytes);
         } catch (FileNotFoundException ex) {
             logger.log(Level.SEVERE, "An error has occured while persisting the Private Key.");
@@ -65,7 +60,7 @@ public class KeyGenerator {
     }
     
     private void persistPublicKey(byte[] publicKeyBytes) {
-        try (OutputStream fos = new FileOutputStream(PUBLIC_KEY_FILE_NAME)){
+        try (OutputStream fos = new FileOutputStream(Constants.PUBLIC_KEY_FILE_NAME)){
             fos.write(publicKeyBytes);
         } catch (FileNotFoundException ex) {
             logger.log(Level.SEVERE, "An error has occured while persisting the Private Key.");
