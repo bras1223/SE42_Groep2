@@ -66,9 +66,8 @@ public class SignedChecker {
     private PublicKey readPublicKeyFile() {
         try {
             byte[] data = Files.readAllBytes(Paths.get(Constants.PUBLIC_KEY_FILE_NAME));
-            X509EncodedKeySpec spec = new X509EncodedKeySpec(data);
             KeyFactory kf = KeyFactory.getInstance(Constants.ALGORITHM);
-            return kf.generatePublic(spec);
+            return kf.generatePublic(new X509EncodedKeySpec(data));
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
             logger.log(Level.SEVERE, "En error occured while reading the public key file.", ex);
         }
