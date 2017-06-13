@@ -9,7 +9,7 @@
 <AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.nossa.EncryptionFXMLController">
     <children>
         <Button fx:id="button" layoutX="71.0" layoutY="150.0" onAction="#encrypt" text="Encrypt" />
-      <PasswordField layoutX="86.0" layoutY="108.0" />
+      <PasswordField fx:id="lblPassword" layoutX="86.0" layoutY="108.0" />
       <Label layoutX="29.0" layoutY="112.0" text="Password:" />
       <Label layoutX="30.0" layoutY="42.0" text="Filename:" />
       <TextField layoutX="86.0" layoutY="38.0" />

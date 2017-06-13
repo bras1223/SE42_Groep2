@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import nl.nossa.encryption.EncryptionController;
 
 /**
  *
@@ -14,18 +16,20 @@ import javafx.scene.control.Label;
 public class EncryptionFXMLController implements Initializable {
 
     @FXML
-    private Label label;
+    private PasswordField lblPassword;
+    
+    
+    EncryptionController encryption;
 
     @FXML
     private void encrypt(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+        encryption = new EncryptionController();
+        encryption.encrypt(lblPassword.getText());
     }
 
     @FXML
     private void decrypt(ActionEvent event) {
         System.out.println("You clicked me!");
-        label.setText("Hello World!");
     }
 
     @Override
