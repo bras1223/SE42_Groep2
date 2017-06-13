@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.jws.WebMethod;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -38,6 +40,7 @@ public class Auction {
         sellerMgr = new SellerMgr(em);
     }
     
+    @WebMethod(operationName = "FindItemById")
     public Item getItem(Long id) {
         return auctionMgr.getItem(id);
     }
@@ -54,6 +57,7 @@ public class Auction {
         return sellerMgr.offerItem(seller, cat, description);
     }
     
+    @WebResult(name = "IsRevoked")
     public boolean revokeItem(Item item) {
         return sellerMgr.revokeItem(item);
     }

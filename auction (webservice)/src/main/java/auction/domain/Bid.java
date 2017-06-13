@@ -71,6 +71,18 @@ public class Bid implements Serializable{
         this.id = id;
     }
 
+    public void setTime(FontysTime time) {
+        this.time = time;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+
+    public void setAmount(Money amount) {
+        this.amount = amount;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

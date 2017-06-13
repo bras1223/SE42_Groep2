@@ -93,6 +93,31 @@ public class Item implements Comparable, Serializable {
         return highest;
     }
 
+    public Bid getHighest() {
+        return highest;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setHighest(Bid highest) {
+        this.highest = highest;
+    }
+
+    
     @Override
     public int compareTo(Object arg0) {
         Item item = (Item) arg0;

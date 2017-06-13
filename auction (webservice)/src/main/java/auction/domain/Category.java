@@ -25,4 +25,9 @@ public class Category implements Serializable{
     public String getDiscription() {
         return description;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
 }
