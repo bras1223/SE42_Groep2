@@ -6,9 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.nossa.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="nl.nossa.EncryptionFXMLController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+        <Button fx:id="button" layoutX="71.0" layoutY="150.0" onAction="#encrypt" text="Encrypt" />
+      <PasswordField layoutX="86.0" layoutY="108.0" />
+      <Label layoutX="29.0" layoutY="112.0" text="Password:" />
+      <Label layoutX="30.0" layoutY="63.0" text="Filename:" />
+      <TextField layoutX="86.0" layoutY="59.0" />
+      <Button layoutX="190.0" layoutY="150.0" mnemonicParsing="false" onAction="#decrypt" text="Decrypt" />
     </children>
 </AnchorPane>
