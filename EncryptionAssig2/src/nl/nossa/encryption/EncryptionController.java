@@ -9,8 +9,11 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import static jdk.nashorn.internal.codegen.OptimisticTypesPersistence.store;
@@ -22,10 +25,33 @@ import static jdk.nashorn.internal.codegen.OptimisticTypesPersistence.store;
 public class EncryptionController {
 
     static final int AES_KEYLENGTH = 128;
+    Cipher aesCipherForEncryption;
 
     public EncryptionController() {
         String alias = "aeskey";
         char[] password = "password".toCharArray();
+    }
+
+    private Cipher createCipher() {
+        byte[] salt = generateSalt();
+        try {
+            aesCipherForEncryption = Cipher.getInstance("AES");
+            aesCipherForEncryption.init(Cipher.ENCRYPT_MODE, generateKey(password, salt), new IvParameterSpec(salt));
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
+            Logger.getLogger(EncryptionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private SecretKey generateKey(char[] password, byte[] salt) {
+        try {
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec spec = new PBEKeySpec(password, generateSalt(), 65536, 256);
+            SecretKey key = factory.generateSecret(spec);
+            return key;
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException ex) {
+            Logger.getLogger(EncryptionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     private byte[] generateSalt() {
@@ -39,19 +65,13 @@ public class EncryptionController {
 
     }
 
-    private SecretKey generateKey(char[] password) {
-        try {
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            KeySpec spec = new PBEKeySpec(password, generateSalt(), 65536, 256);
-            SecretKey key = factory.generateSecret(spec);
-            return key;
-        } catch (InvalidKeySpecException | NoSuchAlgorithmException ex) {
-            Logger.getLogger(EncryptionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    private String encryptData() {
-
+    private String encryptData(String message) {
+        byte[] byteDataToEncrypt = message.getBytes();
+        byte[] byteCipherText = aesCipherForEncryption
+                .doFinal(byteDataToEncrypt);
+        // b64 is done differently on Android
+        strCipherText = new BASE64Encoder().encode(byteCipherText);
+        System.out.println("Cipher Text generated using AES is "
+                + strCipherText);
     }
 }
